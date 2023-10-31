@@ -2,9 +2,18 @@
 # Branching:
 -master Branch  
 -develop Branch    
--feature Branches (when creating a new feature branch, name it "feature/" + task name, ex: "feature/NewTask")  
+-feature Branches (when creating a new feature branch, name it "feature/" + task name, ex: "feature/NewTask" or when we create a bug fix branch,name it "bugfix/"+ short description)  
 
 # Code guidelines:
-https://www.geeksforgeeks.org/coding-standards-and-guidelines/  
+To maintain the highest standards of code quality and adherence to best practices, we will use **SonarLint**, an plugin integrated into IntelliJ IDEA.
 
 # Tech stack:
+**Backend**
+1. Spring boot
+2. Java
+3. SQLite
+4. Hibernate
+
+**Frontend**
+</br>
+1. HTMX
