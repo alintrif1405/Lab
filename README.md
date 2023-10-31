@@ -1,8 +1,8 @@
 # ProiectColectiv732
 # Branching:
--master Branch  
--develop Branch    
--feature Branches (when creating a new feature branch, name it "feature/" + task name, ex: "feature/NewTask" or when we create a bug fix branch,name it "bugfix/"+ short description)  
+-main branch  
+-develop branch    
+-feature branch (when creating a new feature branch, name it "feature/" + task name, ex: "feature/NewTask" or when we create a bug fix branch,name it "bugfix/"+ short description)  
 
 # Code guidelines:
 To maintain the highest standards of code quality and adherence to best practices, we will use **SonarLint**, an plugin integrated into IntelliJ IDEA.
