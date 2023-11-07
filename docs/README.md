@@ -1,4 +1,9 @@
 # ProiectColectiv732
+
+# Deployments
+
+- development is always getting deployed [here](https://732pc.github.io/ProiectColectiv732/)
+
 # Branching:
 -main branch  
 -develop branch    
