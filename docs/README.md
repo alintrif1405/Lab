@@ -3,6 +3,7 @@
 # Deployments
 
 - development is always getting deployed [here](https://732pc.github.io/ProiectColectiv732/)
+- it's only static so only basic html can be displayed
 
 # Branching:
 -main branch  
