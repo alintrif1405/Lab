@@ -30,4 +30,5 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name="role", length = 20)
     private ERole role;
+
 }
