@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Test thingy</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/htmx.org/dist/htmx.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/hyperscript.org/dist/_hyperscript.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#registrationForm").submit(function(event) {
+                // Prevent the default form submission
+                event.preventDefault();
+
+                // Get form data as an object
+                var formData = {
+                    lastname: $("#lastname").val(),
+                    firstname: $("#firstname").val(),
+                    email: $("#email").val(),
+                    password: $("#password").val(),
+                    role: $("#role").val()
+                };
+
+                // Log the form data (you can do any manipulation here)
+                console.log(formData);
+
+                // Manually send the form data as JSON
+                $.ajax({
+                    type: "POST",
+                    url: "/users/updateInfo",
+                    contentType: "application/json",
+                    data: JSON.stringify(formData),
+                    success: function(response) {
+                        // Handle the response if needed
+                        console.log(response);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<!-- Add an input for the email -->
+<label for="email1">Email:</label>
+<input type="email" id="email1" name="email1" required>
+
+<script>
+    function getCurrentUser() {
+        // Get the value from the email1 input field
+        return document.getElementById("email1").value;
+    }
+
+    document.addEventListener('htmx:afterRequest', function(evt) {
+        if (evt.detail.target.id === 'registrationForm') {
+        if(evt.detail.xhr.status === 404){
+            /* Notify the user of a 404 Not Found response */
+            return alert("Error: Could Not Find Resource");
+        }
+        if (evt.detail.successful !== true) {
+            /* Notify of an unexpected error, & print error to console */
+            alert("Unexpected Error");
+            return console.error(evt);
+        }
+        if (evt.detail.target.id === 'registrationForm') {
+            var responseData = JSON.parse(evt.detail.xhr.response);
+            document.getElementById('lastname').value = responseData.lastname;
+            document.getElementById('firstname').value = responseData.firstname;
+            document.getElementById('email').value = responseData.email;
+            document.getElementById('role').value = responseData.role;
+        }
+    }});
+</script>
+
+<!-- Add a button to trigger the getInfo action -->
+<!-- hx-vals should be changed to get the email of the user that's currently logged in -->
+<button type="button" hx-get="/users/getInfo" hx-trigger="click" hx-target="#registrationForm" hx-vals="js:{email: getCurrentUser()}"  hx-swap="none">Get User Info</button>
+
+<form id="registrationForm" hx-post="/users/updateInfo" hx-trigger="submit" hx-headers="{'Content-Type': 'application/json'}">
+    <!-- Use hx-post to specify the endpoint for form submission -->
+
+    <label for="lastname">Last Name:</label>
+    <input type="text" id="lastname" name="lastname" required>
+
+    <label for="firstname">First Name:</label>
+    <input type="text" id="firstname" name="firstname" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="role">Role:</label>
+    <select id="role" name="role" required>
+        <option value="STD">Student</option>
+        <option value="ADM">Admin</option>
+        <option value="PROF">Teacher</option>
+    </select>
+
+    <!-- Add a button to trigger the updateUser action -->
+    <button type="submit">Update my Info</button>
+
+</form>
+</body>
+</html>
