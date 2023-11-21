@@ -102,7 +102,7 @@ public class UserService {
     public boolean validateNames(String name) {
         if (name == null)
             return false;
-        Pattern pattern = Pattern.compile("^[A-Z][a-z]+$");
+        Pattern pattern = Pattern.compile("^[A-Za-z]+(?:[ -][A-Za-z]+)*$");
         Matcher matcher = pattern.matcher(name);
         return matcher.find();
     }
