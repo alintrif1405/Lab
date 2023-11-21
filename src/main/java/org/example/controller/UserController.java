@@ -24,16 +24,16 @@ public class UserController {
         this.accountHistoryService = accountHistoryService;
     }
 
-//    @PostMapping(value = "/register")
-//    public ResponseEntity<User> saveUser(@RequestBody User user) throws BusinessException {
-//        User savedUser = this.userService.saveUser(user);
-//
-//        if(savedUser == null){
-//            throw new BusinessException(BusinessExceptionCode.INVALID_USER);
-//        } else{
-//            return new ResponseEntity<>(savedUser, HttpStatus.OK);
-//        }
-//    }
+    @PostMapping(value = "/register")
+    public ResponseEntity<User> saveUser(@RequestBody User user) throws BusinessException {
+        User savedUser = this.userService.saveUser(user);
+
+        if(savedUser == null){
+            throw new BusinessException(BusinessExceptionCode.INVALID_USER);
+        } else{
+            return new ResponseEntity<>(savedUser, HttpStatus.OK);
+        }
+    }
 
     @GetMapping(value = "/getInfo")
     public ResponseEntity<User> getUser(@RequestParam String email) throws BusinessException {
