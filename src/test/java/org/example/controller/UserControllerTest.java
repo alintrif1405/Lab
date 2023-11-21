@@ -1,7 +1,5 @@
 package org.example.controller;
 
-import org.example.exception.BusinessException;
-import org.example.exception.BusinessExceptionCode;
 import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.UserService;
@@ -14,8 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

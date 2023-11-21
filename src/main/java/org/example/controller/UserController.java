@@ -22,8 +22,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<User> saveUser(@RequestParam("firstname") String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam ERole role) throws BusinessException {
-        User userToSave = new User(12, firstname, lastname, email, password, role);
+    public ResponseEntity<User> saveUser(@RequestParam String firstname, @RequestParam String lastname,
+                                         @RequestParam String email, @RequestParam String password,
+                                         @RequestParam ERole role) throws BusinessException {
+        User userToSave = new User(firstname, lastname, email, password, role);
         User savedUser = this.userService.saveUser(userToSave);
 
         if(savedUser == null){
