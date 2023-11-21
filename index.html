@@ -1,11 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTMX-Demo</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/3c8aef11b9.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="login_form.js"></script>
 </head>
-
 <body>
-WOW
-</body>
 
+<div class="alert hide">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg">Date invalide</span>
+    <span class="close-btn">
+            <span class="fas fa-times"></span>
+        </span>
+</div>
+
+<div class="container">
+
+    <h2 class="text-center">Creeare Cont</h2>
+
+    <form name="createAccount" onsubmit="return validateForm()">
+
+        <label>
+            <input class="form-group" name="f_name" type="text" placeholder="First name">
+        </label>
+        <label>
+            <input class="form-group" name="l_name" type="text" placeholder="Last name">
+        </label>
+        <label>
+            <input class="form-group" name="email" type="text" placeholder="Adresa ta de email">
+        </label>
+
+        <div class="password-container form-group">
+            <label>
+                <input class="password-input" name="password" type="password" placeholder="Password">
+            </label>
+            <i class="fa-solid fa-key show-password"></i>
+        </div>
+
+        <label>Role
+            <select class="form-group" name="role">
+                <option value="user">User</option>
+                <option value="teacher">Teacher</option>
+                <option value="admin">Admin</option>
+            </select>
+        </label>
+
+        <button type="submit" hx-post="users/register" hx-target="body" >Create account</button>
+    </form>
+</div>
+
+</body>
 </html>
