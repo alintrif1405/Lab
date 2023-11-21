@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.exception.BusinessException;
 import org.example.exception.BusinessExceptionCode;
 import org.example.model.User;
+import org.example.service.EmailService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,19 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final EmailService emailService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public ResponseEntity<User> saveUser(@RequestBody User user) throws BusinessException {
         User savedUser = this.userService.saveUser(user);
 
         if(savedUser == null){
             throw new BusinessException(BusinessExceptionCode.INVALID_USER);
         } else{
+            emailService.sendEmail(savedUser.getEmail(), "Hei Vlad", "Esti in baza mea de date acum");
             return new ResponseEntity<>(savedUser, HttpStatus.OK);
         }
     }
