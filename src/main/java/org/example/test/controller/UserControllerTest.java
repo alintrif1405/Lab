@@ -1,7 +1,6 @@
 package org.example.test.controller;
 
 import org.example.controller.UserController;
-import org.example.exception.BusinessException;
 import org.example.model.User;
 import org.example.service.AccountHistoryService;
 import org.example.service.UserService;
@@ -28,7 +27,7 @@ class UserControllerTest {
     private UserController userController;
 
     @Test
-    void saveUser_ValidUser_ReturnsSavedUser() throws BusinessException {
+    void saveUser_ValidUser_ReturnsSavedUser() {
         // Mocking
         User user = new User(); // Create a valid user
         when(userService.saveUser(user)).thenReturn(user);
@@ -43,7 +42,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUser_ValidEmail_ReturnsUser() throws BusinessException {
+    void getUser_ValidEmail_ReturnsUser() {
         // Mocking
         String email = "test@example.com"; // Valid email
         User user = new User(); // Create a user
@@ -59,7 +58,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUser_ValidUser_ReturnsUpdatedUser() throws BusinessException {
+    void updateUser_ValidUser_ReturnsUpdatedUser() {
         // Mocking
         User user = new User(); // Create a valid user
         when(userService.updateUser(user)).thenReturn(user);

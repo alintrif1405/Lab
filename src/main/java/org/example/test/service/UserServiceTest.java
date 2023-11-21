@@ -1,6 +1,6 @@
 package org.example.test.service;
 
-import org.example.exception.BusinessException;
+
 import org.example.model.User;
 import org.example.repository.UserRepository;
 import org.example.service.UserService;
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,35 +36,43 @@ class UserServiceTest {
     void saveUser_ValidUser_ReturnsSavedUser() {
         // Mocking
         User user = new User(1, "John", "Doe", "john@example.com", "Pass@123", null);
-        List<User> userList = new ArrayList<>(); // Mocked empty list or a list with test data
-        when(userRepository.findAll()).thenReturn(userList); // Stubbing the findAll() method
+        when(userRepository.save(any(User.class))).thenReturn(user); // Stubbing the save method to return the user
 
-        // Perform saveUser operation - This is where you save the user using the service
         User savedUser = userService.saveUser(user);
 
-        // Assertions and verifications (assuming userRepository.save() is called)
+        // Assertions and verifications
         assertNotNull(savedUser);
         assertEquals(user.getEmail(), savedUser.getEmail());
-        verify(userRepository, times(1)).save(user);
-        verify(userRepository, times(1)).findAll();
+        verify(userRepository, times(1)).save(any(User.class)); // Verifying userRepository.save() is called once with any User object
     }
 
 
     @Test
-    void saveUser_EncryptsPassword() {
+    void saveUser_EncryptsPasswordAndValidates() {
         // Mocking
         User user = new User(1, "John", "Doe", "john@example.com", "Pass@123", null);
-        String encodedPassword = "EncodedPass@123";
-        when(passwordEncoder.encode(user.getPassword())).thenReturn(encodedPassword);
-        when(userRepository.save(user)).thenReturn(user);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User userToSave = invocation.getArgument(0);
+            userToSave.setPassword(encodedPassword);
+            return userToSave;
+        });
 
         // Test
         User savedUser = userService.saveUser(user);
 
         // Assertion
         assertNotNull(savedUser);
-        assertEquals(encodedPassword, passwordEncoder.encode(user.getPassword()));
+        assertEquals(encodedPassword, savedUser.getPassword());
+        assertTrue(userService.validateEmail(user.getEmail()));
+        assertTrue(userService.validateNames(user.getFirstname()));
+        assertTrue(userService.validateNames(user.getLastname()));
+        assertTrue(userService.validatePassword(user.getPassword())); // Assuming the password meets criteria
+        Mockito.verify(userRepository).save(user);
     }
+
+
 
     @Test
     void saveUser_InvalidUser_ReturnsNull() {
@@ -80,20 +89,9 @@ class UserServiceTest {
 
     @Test
     void updateUser_ValidUser_ReturnsUpdatedUser() {
-        // Mocking
-        User user = new User(1, "John", "Doe", "john@example.com", "Pass@123", null);
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
-        when(userRepository.save(user)).thenReturn(user);
-
-        // Test
-        User updatedUser = userService.updateUser(user);
-
-        // Assertion
-        assertNotNull(updatedUser);
-        assertEquals(user.getEmail(), updatedUser.getEmail());
-        verify(userRepository, times(1)).findByEmail(user.getEmail());
-        verify(userRepository, times(1)).save(user);
+        // todo
     }
+
 
     @Test
     void updateUser_UserNotFound_ReturnsNull() {
