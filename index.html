@@ -6,8 +6,8 @@
     <title>HTMX-Demo</title>
 
     <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/3c8aef11b9.js" crossorigin="anonymous"></script>
 
+    <script src="https://kit.fontawesome.com/3c8aef11b9.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -27,13 +27,13 @@
 
     <h2 class="text-center">Creeare Cont</h2>
 
-    <form name="createAccount" onsubmit="return validateForm()">
+    <form name="createAccount" hx-post="http://localhost:8080/users/register" hx-target="body">
 
         <label>
-            <input class="form-group" name="f_name" type="text" placeholder="First name">
+            <input class="form-group" name="firstname" type="text" placeholder="First name">
         </label>
         <label>
-            <input class="form-group" name="l_name" type="text" placeholder="Last name">
+            <input class="form-group" name="lastname" type="text" placeholder="Last name">
         </label>
         <label>
             <input class="form-group" name="email" type="text" placeholder="Adresa ta de email">
@@ -48,13 +48,13 @@
 
         <label>Role
             <select class="form-group" name="role">
-                <option value="user">User</option>
-                <option value="teacher">Teacher</option>
-                <option value="admin">Admin</option>
+                <option value="STD">User</option>
+                <option value="PROF">Teacher</option>
+                <option value="ADM">Admin</option>
             </select>
         </label>
 
-        <button type="submit" hx-post="users/register" hx-target="body" >Create account</button>
+        <input type="submit" value="Submit">
     </form>
 </div>
 

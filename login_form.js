@@ -27,9 +27,8 @@ $(document).ready(function () {
         alertElement.addClass("hide");
     });
 
-    $('.show-password').click(function(){
+    $('.show-password').click(function () {
         let passwordInput = $('.password-input');
-
 
         if (passwordInput.attr('type') === 'password') {
             passwordInput.attr('type', 'text');
@@ -65,28 +64,6 @@ $(document).ready(function () {
             return true;
         }
 
-    }
-
-    function submitForm(){
-        let formData = {
-            f_name: $('#f_name').val(),
-            l_name: $('#l_name').val(),
-            email: $('#email').val(),
-            password: $('#password').val(),
-            role: $('#role').val()
-        };
-        $.ajax({
-            url: 'http://localhost:8080/users/register',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            success: function (response) {
-                showAlert("Account created successfully");
-            },
-            error: function (xhr, status, error) {
-                showAlert("Error creating account. Please try again.");
-            }
-        });
     }
 
 });

@@ -2,15 +2,13 @@ package org.example.controller;
 
 import org.example.exception.BusinessException;
 import org.example.exception.BusinessExceptionCode;
+import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -23,9 +21,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<User> saveUser(@RequestBody User user) throws BusinessException {
-        User savedUser = this.userService.saveUser(user);
+    @PostMapping(value = "/register")
+    public ResponseEntity<User> saveUser(@RequestParam("firstname") String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam ERole role) throws BusinessException {
+        User userToSave = new User(12, firstname, lastname, email, password, role);
+        User savedUser = this.userService.saveUser(userToSave);
 
         if(savedUser == null){
             throw new BusinessException(BusinessExceptionCode.INVALID_USER);
