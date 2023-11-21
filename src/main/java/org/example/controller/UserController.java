@@ -1,7 +1,5 @@
 package org.example.controller;
 
-import org.example.exception.BusinessException;
-import org.example.exception.BusinessExceptionCode;
 import org.example.model.User;
 import org.example.service.AccountHistoryService;
 import org.springframework.http.MediaType;
@@ -36,22 +34,22 @@ public class UserController {
     }
 
     @GetMapping(value = "/getInfo")
-    public ResponseEntity<User> getUser(@RequestParam String email) throws BusinessException {
+    public ResponseEntity<User> getUser(@RequestParam String email){
         User updatedUser = this.userService.getUserByEmail(email);
 
         if(updatedUser == null){
-            throw new BusinessException(BusinessExceptionCode.INVALID_USER);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } else{
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }
     }
 
     @PostMapping(value = "/updateInfo")
-    public ResponseEntity<User> updateUser(@RequestBody User user) throws BusinessException {
+    public ResponseEntity<User> updateUser(@RequestBody User user){
         User oldUser = this.userService.getUserByEmail(user.getEmail());
         User updatedUser = this.userService.updateUser(user);
         if(updatedUser == null){
-            throw new BusinessException(BusinessExceptionCode.INVALID_USER);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } else{
             this.accountHistoryService.makeNewEntry(oldUser, updatedUser);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
