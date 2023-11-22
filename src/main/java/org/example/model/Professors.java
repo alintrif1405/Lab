@@ -31,13 +31,14 @@ public class Professors {
     @Column(name="role", length = 15)
     private ERole role;
 
+
+    @Column(name="email")
+    private String email;
+
+    @Column(name="password")
+    private String password;
     @OneToMany(mappedBy = "professor",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Course> courses;
-    //  @Column(name="email")
-    // private String email;
-
-    // @Column(name="password")
-    // private String password;
 
 }

@@ -1,6 +1,8 @@
 package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +33,10 @@ public class Course {
     @JoinColumn(name="ProfessorID",nullable = false)
     @JsonBackReference
     private Professors professor;
+    @Nullable
+    @JsonIgnore
+    @OneToMany(mappedBy = "course",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<StudentCourse> studentCourses;
     @Column(name="yearOfStudy")
     private int yearOfStudy;
     @Enumerated(EnumType.STRING)

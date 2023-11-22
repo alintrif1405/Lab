@@ -32,7 +32,8 @@ public class StudentController {
 
     }
 
-
+   // @PostMapping("/{id}")
+   // public ResponseEntity<?> addCourseToStudent
     @PostMapping
     public ResponseEntity<?> addStudent(@RequestBody Students student) {
         {
