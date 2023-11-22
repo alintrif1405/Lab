@@ -2,8 +2,7 @@ package org.example.controller;
 
 
 import jakarta.persistence.EntityNotFoundException;
-import org.example.model.Professors;
-import org.example.model.Students;
+import org.example.model.*;
 import org.example.service.ProfessorService;
 import org.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 @RestController
 @RequestMapping("/professors")
 public class ProfessorController {
@@ -25,13 +24,36 @@ public class ProfessorController {
         return professorService.getAllProfessors();
     }
 
+    @GetMapping("/{id}/courses")
+    public ResponseEntity<ProfessorCourseResponseDTO> getProfessorCourses(@PathVariable Integer id){
+        Professors professor = professorService.getProfessorById(id).orElse(null);
+        if (professor != null) {
+            Set<Course> courses = professor.getCourses();
+            String professorFirstName=professor.getFirstname();
+            String professorLastName=professor.getLastname();
+
+            ProfessorCourseResponseDTO response=new ProfessorCourseResponseDTO();
+
+            response.setLastName(professorLastName);
+            response.setFirstName(professorFirstName);
+            response.setCourses(courses!=null?courses: Collections.emptySet());
+
+
+            return ResponseEntity.ok(response);
+
+
+            }
+        else return ResponseEntity.notFound().build();
+
+        }
+
+
     @GetMapping("/{id}")
-    public ResponseEntity<Professors> getProfessorById(@PathVariable Integer id){
-        Professors professors = professorService.getProfessorById(id).orElse(null);
-        return (professors!=null) ? ResponseEntity.ok(professors):ResponseEntity.notFound().build();
-
+    public ResponseEntity<Professors> getProfessorById(@PathVariable Integer id)
+    {
+        Professors professor=professorService.getProfessorById(id).orElse(null);
+        return (professor!=null)? ResponseEntity.ok(professor):ResponseEntity.notFound().build();
     }
-
 
     @PostMapping
     public ResponseEntity<?> addProfessor(@RequestBody Professors professor) {

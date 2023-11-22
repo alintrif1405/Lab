@@ -27,5 +27,16 @@ public class StudentCourse {
     Course course;
     @Column(name="note")
     private double note;
+    @Transient
+    private String professorFirstName;
+    @Transient
+    private String professorLastName;
+    @PostLoad
+    private void onLoad() {
+        if (course != null && course.getProfessor() != null) {
+            professorFirstName = course.getProfessor().getFirstname();
+            professorLastName=course.getProfessor().getLastname();
+        }
+    }
 
 }

@@ -39,6 +39,7 @@ public class Students {
     @OneToMany(mappedBy = "student",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<StudentCourse> studentCourses;
 
+    //public Set
 //    public void enrollInCourse(Course course){
 //        studentCourses.add(course);
 //    }
