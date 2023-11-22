@@ -36,9 +36,11 @@ class UserControllerTest {
 
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
         mockMvc.perform(post("/users/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"lastname\":\"Radu\",\"firstname\":\"Valentin\"," +
-                                "\"email\":\"user2@example.com\",\"password\":\"Yth67#890afa\",\"role\":\"STD\"}"))
+                        .param("lastname", validUserToSave.getLastname())
+                        .param("firstname", validUserToSave.getFirstname())
+                        .param("email", validUserToSave.getEmail())
+                        .param("password", validUserToSave.getPassword())
+                        .param("role", validUserToSave.getRole().toString()))
                 .andExpect(status().isOk());
 
         verify(userService, times(1)).saveUser(any(User.class));
@@ -49,9 +51,11 @@ class UserControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
         try {
             mockMvc.perform(post("/users/register")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"lastname\":\"Radu\",\"firstname\":\"Valentin\"," +
-                            "\"email\":\"user1@example.com\",\"password\":\"12345\",\"role\":\"STD\"}"));
+                    .param("lastname", "Radu")
+                    .param("firstname", "Valentin")
+                    .param("email", "user1@example.com")
+                    .param("password", "12345")
+                    .param("role", "STD"));
 
             fail("Expected BusinessException, but no exception was thrown");
         } catch (Exception e) {
