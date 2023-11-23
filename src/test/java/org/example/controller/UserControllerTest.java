@@ -1,7 +1,5 @@
 package org.example.controller;
 
-import org.example.exception.BusinessException;
-import org.example.exception.BusinessExceptionCode;
 import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.UserService;
@@ -14,8 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,9 +36,11 @@ class UserControllerTest {
 
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
         mockMvc.perform(post("/users/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"lastname\":\"Radu\",\"firstname\":\"Valentin\"," +
-                                "\"email\":\"user2@example.com\",\"password\":\"Yth67#890afa\",\"role\":\"STD\"}"))
+                        .param("lastname", validUserToSave.getLastname())
+                        .param("firstname", validUserToSave.getFirstname())
+                        .param("email", validUserToSave.getEmail())
+                        .param("password", validUserToSave.getPassword())
+                        .param("role", validUserToSave.getRole().toString()))
                 .andExpect(status().isOk());
 
         verify(userService, times(1)).saveUser(any(User.class));
@@ -53,9 +51,11 @@ class UserControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
         try {
             mockMvc.perform(post("/users/register")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"lastname\":\"Radu\",\"firstname\":\"Valentin\"," +
-                            "\"email\":\"user1@example.com\",\"password\":\"12345\",\"role\":\"STD\"}"));
+                    .param("lastname", "Radu")
+                    .param("firstname", "Valentin")
+                    .param("email", "user1@example.com")
+                    .param("password", "12345")
+                    .param("role", "STD"));
 
             fail("Expected BusinessException, but no exception was thrown");
         } catch (Exception e) {

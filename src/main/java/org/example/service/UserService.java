@@ -54,6 +54,7 @@ public class UserService {
         Pattern pattern = Pattern.compile("^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(.{8,})$");
         Matcher matcher = pattern.matcher(password);
         return matcher.find();
+
     }
 
     public boolean validateNames(String name) {
@@ -62,7 +63,6 @@ public class UserService {
         Pattern pattern = Pattern.compile("^[A-Z][a-z]+$");
         Matcher matcher = pattern.matcher(name);
         return matcher.find();
+
     }
-
-
 }
