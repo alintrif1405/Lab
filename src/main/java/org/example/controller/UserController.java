@@ -28,12 +28,14 @@ public class UserController {
 
     @PostMapping("register")
     public ResponseEntity<User> saveUser(@RequestBody User user) throws BusinessException {
+        String initialPass = user.getPassword();
         User savedUser = this.userService.saveUser(user);
-
-        if(savedUser == null){
+        if (savedUser == null) {
             throw new BusinessException(BusinessExceptionCode.INVALID_USER);
-        } else{
-            emailService.sendEmail(savedUser.getEmail(), "Hei Vlad", "Esti in baza mea de date acum");
+        } else {
+            emailService.sendEmailFromTemplate(savedUser.getEmail(),
+                    "src/main/java/org/example/service/emailTemplateAccountConfirmation.txt",
+                    "UBB Account created", initialPass);
             return new ResponseEntity<>(savedUser, HttpStatus.OK);
         }
     }
