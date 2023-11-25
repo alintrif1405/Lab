@@ -1,7 +1,5 @@
 package org.example.controller;
 
-import org.example.exception.BusinessException;
-import org.example.exception.BusinessExceptionCode;
 import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.UserService;
@@ -24,12 +22,12 @@ public class UserController {
     @PostMapping(value = "/register")
     public ResponseEntity<String> saveUser(@RequestParam String firstname, @RequestParam String lastname,
                                          @RequestParam String email, @RequestParam String password,
-                                         @RequestParam ERole role) throws BusinessException {
+                                         @RequestParam ERole role) {
         User userToSave = new User(firstname, lastname, email, password, role);
         User savedUser = this.userService.saveUser(userToSave);
 
         if(savedUser == null){
-            throw new BusinessException(BusinessExceptionCode.INVALID_USER);
+            return new ResponseEntity<>("Invalid user", HttpStatus.OK);
         } else{
             return new ResponseEntity<>("User successfully created", HttpStatus.OK);
         }

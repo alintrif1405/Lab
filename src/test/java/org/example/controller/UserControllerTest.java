@@ -12,8 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.util.AssertionErrors.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,27 +40,25 @@ class UserControllerTest {
                         .param("email", validUserToSave.getEmail())
                         .param("password", validUserToSave.getPassword())
                         .param("role", validUserToSave.getRole().toString()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("User successfully created"))
+                .andReturn().getResponse().getContentAsString();
 
         verify(userService, times(1)).saveUser(any(User.class));
     }
 
     @Test
-    void saveUserInvalid() {
+    void saveUserInvalid() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-        try {
-            mockMvc.perform(post("/users/register")
-                    .param("lastname", "Radu")
-                    .param("firstname", "Valentin")
-                    .param("email", "user1@example.com")
-                    .param("password", "12345")
-                    .param("role", "STD"));
-
-            fail("Expected BusinessException, but no exception was thrown");
-        } catch (Exception e) {
-            assert true;
-        }
-
+        mockMvc.perform(post("/users/register")
+                        .param("lastname", "Radu")
+                        .param("firstname", "Valentin")
+                        .param("email", "user1@example.com")
+                        .param("password", "12345")
+                        .param("role", "STD"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Invalid user"))
+                .andReturn().getResponse().getContentAsString();
     }
 
 }
