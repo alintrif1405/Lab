@@ -10,22 +10,12 @@
     <script src="https://kit.fontawesome.com/3c8aef11b9.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="createAccounts.js"></script>
 </head>
 
 <body>
-
-    <div class="alert hide">
-        <span class="fas fa-exclamation-circle"></span>
-        <span class="msg">Date invalide</span>
-        <span class="close-btn">
-            <span class="fas fa-times"></span>
-        </span>
-    </div>
-
     <div class="container">
         <h2 class="text-center">Creeare Cont</h2>
-        <form name="createAccount" hx-post="http://localhost:8080/users/register" hx-target="body">
+        <form name="createAccount" hx-post="http://localhost:8080/users/register" hx-target=".create-user-message">
             <label>
                 <input class="form-group" name="firstname" type="text" placeholder="First name">
             </label>
@@ -56,5 +46,7 @@
             <input type="submit" value="Submit">
         </form>
     </div>
+
+    <div class="create-user-message"></div>
 </body>
 </html>

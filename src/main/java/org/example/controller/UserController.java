@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<User> saveUser(@RequestParam String firstname, @RequestParam String lastname,
+    public ResponseEntity<String> saveUser(@RequestParam String firstname, @RequestParam String lastname,
                                          @RequestParam String email, @RequestParam String password,
                                          @RequestParam ERole role) throws BusinessException {
         User userToSave = new User(firstname, lastname, email, password, role);
@@ -31,7 +31,7 @@ public class UserController {
         if(savedUser == null){
             throw new BusinessException(BusinessExceptionCode.INVALID_USER);
         } else{
-            return new ResponseEntity<>(savedUser, HttpStatus.OK);
+            return new ResponseEntity<>("User successfully created", HttpStatus.OK);
         }
     }
 }
