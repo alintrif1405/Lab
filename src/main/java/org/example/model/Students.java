@@ -1,11 +1,12 @@
 package org.example.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -20,28 +21,24 @@ public class Students {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer studentID;
 
-    @Column(name="lastname")
+    @Column(name = "lastname")
     private String lastname;
 
-    @Column(name="firstname")
+    @Column(name = "firstname")
     private String firstname;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="role", length = 15)
+    @Column(name = "role", length = 15)
     private ERole role;
 
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
     @Nullable
-    @OneToMany(mappedBy = "student",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<StudentCourse> studentCourses;
 
-    //public Set
-//    public void enrollInCourse(Course course){
-//        studentCourses.add(course);
-//    }
 
 }

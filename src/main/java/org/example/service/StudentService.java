@@ -7,8 +7,6 @@ import org.example.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,16 +17,16 @@ public class StudentService {
     private StudentRepository studentRepository;
 
 
-    public List<Students> getAllStudents(){
+    public List<Students> getAllStudents() {
         return studentRepository.findAll();
 
     }
 
-    public Optional<Students> getStudentById(Integer id){
+    public Optional<Students> getStudentById(Integer id) {
         return studentRepository.findById(id);
     }
 
-    public Students addStudent(Students student){
+    public Students addStudent(Students student) {
         student.setStudentID(null);
         return studentRepository.save(student);
     }
@@ -43,8 +41,6 @@ public class StudentService {
             throw new EntityNotFoundException("Student with ID " + id + " not found");
         }
     }
-
-
 
 
 }

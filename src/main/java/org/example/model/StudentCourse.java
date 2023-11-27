@@ -19,23 +19,24 @@ public class StudentCourse {
     @JsonIgnore
     @ManyToOne
     @MapsId("studentID")
-    @JoinColumn(name="studentFK")
+    @JoinColumn(name = "studentFK")
     private Students student;
     @ManyToOne
     @MapsId("courseID")
-    @JoinColumn(name="courseFK")
+    @JoinColumn(name = "courseFK")
     Course course;
-    @Column(name="note")
+    @Column(name = "note")
     private double note;
     @Transient
     private String professorFirstName;
     @Transient
     private String professorLastName;
+
     @PostLoad
     private void onLoad() {
         if (course != null && course.getProfessor() != null) {
             professorFirstName = course.getProfessor().getFirstname();
-            professorLastName=course.getProfessor().getLastname();
+            professorLastName = course.getProfessor().getLastname();
         }
     }
 

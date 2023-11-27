@@ -2,9 +2,7 @@ package org.example.controller;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.model.Course;
-import org.example.model.Professors;
 import org.example.service.CourseService;
-import org.example.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +17,14 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping
-    public List<Course> getAllCourses(){
+    public List<Course> getAllCourses() {
         return courseService.getAllCourses();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable Integer id){
+    public ResponseEntity<Course> getCourseById(@PathVariable Integer id) {
         Course course = courseService.getCourseById(id).orElse(null);
-        return (course!=null) ? ResponseEntity.ok(course):ResponseEntity.notFound().build();
+        return (course != null) ? ResponseEntity.ok(course) : ResponseEntity.notFound().build();
 
     }
 
@@ -39,7 +37,6 @@ public class CourseController {
 
         }
     }
-
 
 
     @DeleteMapping("/{id}")

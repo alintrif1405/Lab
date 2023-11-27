@@ -1,6 +1,5 @@
 package org.example.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -21,23 +19,23 @@ public class Professors {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer professorID;
 
-    @Column(name="lastname")
+    @Column(name = "lastname")
     private String lastname;
 
-    @Column(name="firstname")
+    @Column(name = "firstname")
     private String firstname;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="role", length = 15)
+    @Column(name = "role", length = 15)
     private ERole role;
 
 
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
-    @OneToMany(mappedBy = "professor",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Course> courses;
 

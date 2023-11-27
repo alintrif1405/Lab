@@ -2,9 +2,7 @@ package org.example.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.model.Course;
-import org.example.model.Professors;
 import org.example.repository.CourseRepository;
-import org.example.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,22 +14,26 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-    public List<Course> getAllCourses(){return courseRepository.findAll();}
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
+    }
 
-    public Optional<Course> getCourseById(Integer Id){return courseRepository.findById(Id);}
-     public Course addCourses(Course course){
+    public Optional<Course> getCourseById(Integer Id) {
+        return courseRepository.findById(Id);
+    }
+
+    public Course addCourses(Course course) {
         course.setCourseID(null);
         return courseRepository.save(course);
     }
+
     public boolean deleteCourse(Integer Id) {
         Optional<Course> existingCourse = courseRepository.findById(Id);
         if (existingCourse.isPresent()) {
             courseRepository.deleteById(Id);
             return true;
-        }
-        else throw new EntityNotFoundException("Course with id "+Id+" has not been found");
+        } else throw new EntityNotFoundException("Course with id " + Id + " has not been found");
     }
-
 
 
 }

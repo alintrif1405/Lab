@@ -33,9 +33,6 @@ public class StudentServiceTest {
 
     @Test
     void getAllStudents(){
-//      List<Students> students = studentService.getAllStudents();
-//      students.add(new Students());students.add(new Students());
-//      assertEquals(2, students.size());
         when(studentRepository.findAll()).thenReturn(Arrays.asList(new Students(), new Students()));
         assertEquals(2, studentService.getAllStudents().size());
     }
