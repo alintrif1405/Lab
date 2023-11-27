@@ -148,31 +148,87 @@
 </div>
 <div class="overlay">
     <div class="title-overlay">Cursurile mele</div>
-    <div class="course-container">
-        <div class="course-title">Obligatorii</div>
-        <div class="course-window">
-            <div class="blue-ribbon"></div>
-            <div class="course-details">
-                <div class="title">Nume Curs</div>
-                <div class="subtitle">NCR</div>
-                <div class="text">Profesor</div>
-                <div class="text">Credite</div>
+        <div class="course-container">
+            <div class="course-title">Obligatorii</div>
+            <div id="obligatoryCoursesContainer"> <!-- This was missing in your original code -->
+                <!-- Content will be dynamically added here -->
+            </div>
+<!--                <div class="course-window">-->
+<!--                    <div class="blue-ribbon"></div>-->
+<!--                    <div class="course-details">-->
+<!--                        <div class="title">Nume Curs</div>-->
+<!--                        <div class="subtitle">NCR</div>-->
+<!--                        <div class="text">Profesor</div>-->
+<!--                        <div class="text">Credite</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+        </div>
+        <div class="course-container">
+            <div class="course-title">Optionale</div>
+            <div id="optionalCoursesContainer"> <!-- This was missing in your original code -->
+                <!-- Content will be dynamically added here -->
             </div>
         </div>
-        <div class="course-window">
-            <div class="blue-ribbon"></div>
-            <div class="course-details">
-                <div class="title">Nume Curs</div>
-                <div class="subtitle">NCR</div>
-                <div class="text">Profesor</div>
-                <div class="text">Credite</div>
-            </div>
-        </div>
-    </div>
-    <div class="course-container">
-        <div class="course-title">Optionale</div>
-    </div>
 </div>
+<script>
+    // Function to handle fetching and displaying user courses
+    function fetchUserCourses() {
+        var coursesEndpoint = "/getUserCourses";
+
+        htmx.ajax(coursesEndpoint, 'get', {
+            target: document.getElementById("userCoursesContainer"),
+            headers: {"Authorization": "Bearer YOUR_JWT_TOKEN"}, // Add your authorization header
+            onLoad: function (xhr) {
+                var courses = JSON.parse(xhr.response);
+
+                // Split courses into "optional" and "obligatory"
+                var optionalCourses = courses.filter(course => course.type === "optional");
+                var obligatoryCourses = courses.filter(course => course.type === "obligatory");
+
+                // Create HTML for "optional" courses
+                var optionalHTML = '<div class="course-container"><div class="course-title">Optionale</div>';
+                optionalCourses.forEach(course => {
+                    optionalHTML += '<div class="course-window">';
+                    optionalHTML += createCourseInfo(course);
+                    optionalHTML += '</div>';
+                });
+                optionalHTML += '</div>';
+
+                // Create HTML for "obligatory" courses
+                var obligatoryHTML = '<div class="course-container"><div class="course-title">Obligatorii</div>';
+                obligatoryCourses.forEach(course => {
+                    obligatoryHTML += '<div class="course-window">';
+                    obligatoryHTML += createCourseInfo(course);
+                    obligatoryHTML += '</div>';
+                });
+                obligatoryHTML += '</div>';
+
+                // Update the userCoursesContainer with the generated HTML
+                document.getElementById("optionalCoursesContainer").innerHTML = optionalHTML;
+                document.getElementById("obligatoryCoursesContainer").innerHTML = obligatoryHTML;
+            }
+        });
+    }
+
+    // Function to create HTML for course info
+    function createCourseInfo(course) {
+        return `
+                <div class="blue-ribbon"></div>
+                <div class="course-details"></div>
+                <div class="course-details">
+                    <div class="title">${course.courseName}</div>
+                    <div class="subtitle">${course.courseCode}</div>
+                    <div class="text">${course.professor}</div>
+                    <div class="text">${course.credits}</div>
+                </div>`;
+    }
+
+    // Call fetchUserCourses when the page loads
+    fetchUserCourses();
+</script>
+
 </body>
 
 </html>
+
+<!--http://localhost:8080/-->
