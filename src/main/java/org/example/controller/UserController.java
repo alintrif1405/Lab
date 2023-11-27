@@ -3,7 +3,6 @@ package org.example.controller;
 import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.AccountHistoryService;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +22,16 @@ public class UserController {
         this.accountHistoryService = accountHistoryService;
     }
 
-//    @PostMapping(value = "/register")
-//    public ResponseEntity<User> saveUser(@RequestBody User user) throws BusinessException {
-//        User savedUser = this.userService.saveUser(user);
-//
-//        if(savedUser == null){
-//            throw new BusinessException(BusinessExceptionCode.INVALID_USER);
-//        } else{
-//            return new ResponseEntity<>(savedUser, HttpStatus.OK);
-//        }
-//    }
+    @PostMapping(value = "/register")
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        User savedUser = this.userService.saveUser(user);
+
+        if(savedUser == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else{
+            return new ResponseEntity<>(savedUser, HttpStatus.OK);
+        }
+    }
 
     @GetMapping(value = "/getInfo")
     public ResponseEntity<User> getUser(@RequestParam String email){
