@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.AccountHistoryService;
 import org.springframework.http.MediaType;
@@ -44,8 +45,18 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/updateInfo")
-    public ResponseEntity<User> updateUser(@RequestBody User user){
+    @PostMapping(value = "/updateInfo", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public ResponseEntity<User> updateUser(@RequestParam String lastname,
+                                           @RequestParam String firstname,
+                                           @RequestParam String email,
+                                           @RequestParam String password,
+                                           @RequestParam String role){
+        User user = new User();
+        user.setLastname(lastname);
+        user.setFirstname(firstname);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole(ERole.valueOf(role));
         User oldUser = this.userService.getUserByEmail(user.getEmail());
         User updatedUser = this.userService.updateUser(user);
         if(updatedUser == null){
