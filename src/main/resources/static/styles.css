@@ -44,6 +44,7 @@ input, select {
     border-bottom: 2px solid #545454; /* Change the color as needed */
     margin-bottom: 20px;
     box-sizing: border-box;
+    background-color: #D9D9D9;
 }
 input:focus, select:focus {
     outline: none;

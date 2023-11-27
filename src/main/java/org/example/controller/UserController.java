@@ -44,7 +44,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/updateInfo", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PostMapping(value = "/updateInfo")
     public ResponseEntity<User> updateUser(@RequestParam String lastname,
                                            @RequestParam String firstname,
                                            @RequestParam String email,
