@@ -3,6 +3,42 @@
 <head>
     <title>vizListe</title>
     <script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
+<!--    <script>-->
+<!--        // Function to handle adding a new course-->
+<!--        function addNewCourse() {-->
+<!--            var professorData = {-->
+<!--                lastname: "Lastname",-->
+<!--                firstname: "Firstname",-->
+<!--                password: "Password",-->
+<!--                email: "email@example.com"-->
+<!--            };-->
+
+<!--            fetch('/professors', {-->
+<!--                method: 'POST',-->
+<!--                headers: {-->
+<!--                    'Content-Type': 'application/json',-->
+<!--                },-->
+<!--                body: JSON.stringify(professorData),-->
+<!--            })-->
+<!--                .then(response => {-->
+<!--                    if (!response.ok) {-->
+<!--                        throw new Error('Network response was not ok');-->
+<!--                    }-->
+<!--                    return response.json();-->
+<!--                })-->
+<!--                .then(data => {-->
+<!--                    console.log('Professor added successfully:', data);-->
+<!--                    // Handle success, update UI, or perform other actions-->
+<!--                })-->
+<!--                .catch(error => {-->
+<!--                    console.error('Error adding professor:', error);-->
+<!--                    // Handle error, show error message, or perform other actions-->
+<!--                });-->
+<!--        }-->
+
+<!--        // Call addNewCourse when needed-->
+<!--        addNewCourse();-->
+<!--    </script>-->
     <style>
         body {
             background-color: #3d5a80;
@@ -171,13 +207,23 @@
         </div>
 </div>
 <script>
-    // Function to handle fetching and displaying user courses
     function fetchUserCourses() {
-        var coursesEndpoint = "/getUserCourses";
+        // Commented out the part that gets the user id and set it as 1
+        // var roleEndpoint = "/getUserRole";
+        // var htmx.ajax(roleEndpoint, 'get', {
+        //     target: document.getElementById("userRoleContainer"),
+        //     headers: {"Authorization": "Bearer YOUR_JWT_TOKEN"},
+        //     onLoad: function (xhr) {
+        //         var userRole = xhr.response;
+        var userRole = 1;
 
+        // Determine courses endpoint based on user role
+        var coursesEndpoint = (userRole === 1) ? "/professors/1/courses" : "/students/1/courses";
+
+        // Fetch courses based on user role
         htmx.ajax(coursesEndpoint, 'get', {
             target: document.getElementById("userCoursesContainer"),
-            headers: {"Authorization": "Bearer YOUR_JWT_TOKEN"}, // Add your authorization header
+            headers: {"Authorization": "Bearer YOUR_JWT_TOKEN"},
             onLoad: function (xhr) {
                 var courses = JSON.parse(xhr.response);
 
@@ -208,24 +254,27 @@
                 document.getElementById("obligatoryCoursesContainer").innerHTML = obligatoryHTML;
             }
         });
+        //     }
+        // });
     }
 
     // Function to create HTML for course info
     function createCourseInfo(course) {
         return `
-                <div class="blue-ribbon"></div>
-                <div class="course-details"></div>
-                <div class="course-details">
-                    <div class="title">${course.courseName}</div>
-                    <div class="subtitle">${course.courseCode}</div>
-                    <div class="text">${course.professor}</div>
-                    <div class="text">${course.credits}</div>
-                </div>`;
+            <div class="blue-ribbon"></div>
+            <div class="course-details">
+                <div class="title">${course.courseName}</div>
+                <div class="subtitle">${course.courseCode}</div>
+                <div class="text">${course.professor}</div>
+                <div class="text">${course.credits}</div>
+            </div>`;
     }
 
     // Call fetchUserCourses when the page loads
     fetchUserCourses();
 </script>
+
+
 
 </body>
 
