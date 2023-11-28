@@ -84,9 +84,11 @@ class UserServiceTest {
 
     @Test
     void updateUser_UserNotFound_ReturnsNull() {
-        // Mocking
+        // Creating a user
         User user = new User(1, "John", "Doe", "john@example.com", "Pass@123", null);
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(null);
+
+        // Stubbing the findByEmail method to return null
+        when(userRepository.findByEmail(anyString())).thenReturn(null);
 
         // Test
         User updatedUser = userService.updateUser(user);
@@ -94,8 +96,9 @@ class UserServiceTest {
         // Assertion
         assertNull(updatedUser);
         verify(userRepository, times(1)).findByEmail(user.getEmail());
-        verify(userRepository, never()).save(user);
+        verify(userRepository, never()).save(any(User.class)); // Ensure save method is not called
     }
+
 
     @Test
     void getUserByEmail_ExistingEmail_ReturnsUser() {
