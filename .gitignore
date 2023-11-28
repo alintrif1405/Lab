@@ -6,9 +6,10 @@ target/
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
-.idea/compiler.xml
+.idea/compiler.xmlS
 .idea/libraries/
 .idea/sonarlint
+.idea/sonarlint.xml
 *.iws
 *.iml
 *.ipr

@@ -1,7 +1,4 @@
 package org.example.controller;
-
-import org.example.exception.BusinessException;
-import org.example.exception.BusinessExceptionCode;
 import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.EmailService;
@@ -24,21 +21,21 @@ public class UserController {
         this.emailService = emailService;
     }
 
-
     @PostMapping(value = "/register")
-    public ResponseEntity<User> saveUser(@RequestParam String firstname, @RequestParam String lastname,
-                                         @RequestParam String email, @RequestParam String password,
-                                         @RequestParam ERole role) throws BusinessException {
+    public ResponseEntity<String> saveUser(@RequestParam String firstname, @RequestParam String lastname,
+                                           @RequestParam String email, @RequestParam String password,
+                                           @RequestParam ERole role) {
         User userToSave = new User(firstname, lastname, email, password, role);
         User savedUser = this.userService.saveUser(userToSave);
 
-        if(savedUser == null){
-            throw new BusinessException(BusinessExceptionCode.INVALID_USER);
+        if (savedUser == null) {
+            return new ResponseEntity<>("Invalid user", HttpStatus.OK);
         } else {
             emailService.sendEmailFromTemplate(savedUser.getEmail(),
                     "src/main/java/org/example/service/emailTemplateAccountConfirmation.txt",
                     "UBB Account created", password);
-            return new ResponseEntity<>(savedUser, HttpStatus.OK);
+            return new ResponseEntity<>("User successfully created", HttpStatus.OK);
         }
+
     }
 }
