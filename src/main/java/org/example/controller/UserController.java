@@ -45,17 +45,9 @@ public class UserController {
     }
 
     @PostMapping(value = "/updateInfo")
-    public ResponseEntity<User> updateUser(@RequestParam String lastname,
-                                           @RequestParam String firstname,
-                                           @RequestParam String email,
-                                           @RequestParam String password,
-                                           @RequestParam String role){
+    public ResponseEntity<User> updateUser(@RequestParam String password){
         User user = new User();
-        user.setLastname(lastname);
-        user.setFirstname(firstname);
-        user.setEmail(email);
         user.setPassword(password);
-        user.setRole(ERole.valueOf(role));
         User oldUser = this.userService.getUserByEmail(user.getEmail());
         User updatedUser = this.userService.updateUser(user);
         if(updatedUser == null){

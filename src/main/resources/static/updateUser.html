@@ -75,16 +75,16 @@
 
         <form id="registrationForm" hx-post="/users/updateInfo" hx-trigger="submit" hx-headers="{'Content-Type': 'application/json'}" hx-swap="none ">
             <!-- Use hx-post to specify the endpoint for form submission -->
-            <input type="text" id="lastname" name="lastname" required placeholder="Last Name">
+            <input type="text" id="lastname" name="lastname" required placeholder="Last Name" readonly>
 
-            <input type="text" id="firstname" name="firstname" required placeholder="First Name">
+            <input type="text" id="firstname" name="firstname" required placeholder="First Name" readonly>
 
-            <input type="email" id="email" name="email" required placeholder="E-mail">
+            <input type="email" id="email" name="email" required placeholder="E-mail" readonly>
 
             <input type="password" id="password" name="password" required placeholder="New Password">
 
             <div>
-                <select id="role" name="role" required>
+                <select id="role" name="role" required disabled>
                     <option value="STD">Student</option>
                     <option value="ADM">Admin</option>
                     <option value="PROF">Teacher</option>

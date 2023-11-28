@@ -38,8 +38,7 @@ public class UserService {
     }
 
     public User updateUser(User user){
-        if(validatePassword(user.getPassword()) && validateEmailOnUpdate(user.getEmail())
-                && validateNames(user.getFirstname()) && validateNames(user.getLastname())){
+        if(validatePassword(user.getPassword())){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CatalogPersistence");
             EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -51,10 +50,6 @@ public class UserService {
                 transaction.begin();
                 User updatedUser = entityManager.find(User.class, temp.getId());
                 updatedUser.setPassword(user.getPassword());
-                updatedUser.setFirstname(user.getFirstname());
-                updatedUser.setLastname(user.getLastname());
-                updatedUser.setRole(user.getRole());
-                updatedUser.setEmail(user.getEmail());
                 transaction.commit();
                 return updatedUser;
             }
