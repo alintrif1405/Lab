@@ -1,10 +1,63 @@
 body {
     background-color: #f8f9fa;
-    display: grid;
-    place-items: center;
+    display: flex;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
-.password-container{
+
+.container{
+    display: flex;
+    height: 100vh;
+}
+
+.form-title{
+    margin: 0;
+    display: flex;
+    white-space: nowrap;
+}
+.form-title h1{
+    margin: 0;
+}
+
+.login-container h3{
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.ubb{
+    color:#ee6c4d;
+}
+.login-container {
+    width: 50%;
+    max-width: 400px;
+    padding: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    margin-left:100px;
+}
+
+.login-container input{
+    outline: none;
+    background-color: transparent;
+    border-width: 0 0 3px 0;
+}
+
+.image-container{
+    width: 100%;
+    height: 100%;
+    justify-content: start;
+    background-color:#405c84;
+
+}
+.image-container img{
+    width: 293px;
+    height: 293px;
+    padding:200px 200px 250px 200px;
+}
+.passsword-container{
     width: 90%;
     max-width: 500px;
     border-radius: 5px;
@@ -18,14 +71,6 @@ body {
     cursor:pointer;
 }
 
-.container {
-    max-width: 400px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
 .form-group {
     margin-top: 10px;
@@ -34,7 +79,6 @@ body {
 }
 
 label {
-    display: block;
     margin-bottom: 5px;
 }
 
@@ -47,13 +91,34 @@ input {
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #ddd;
     border: none;
-    border-radius: 4px;
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
     cursor: pointer;
+    border-radius: 16px;
 }
 
+button:hover{
+    background-color:#ee6c4d;
+    color:white;
+    transition: 0.5s;
+}
+form{
+    padding-top:50px;
+    text-align: center;
+    align-items: center;
+}
 
+.create-user-message{
+    padding-top:25px;
+    font-size: 25px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-flow: column nowrap;
+    color:#ee6c4d;
+}
