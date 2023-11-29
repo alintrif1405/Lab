@@ -39,22 +39,13 @@ public class UserService {
 
     public User updateUser(User user){
         if(validatePassword(user.getPassword())){
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CatalogPersistence");
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-            User temp = this.getUserByEmail(user.getEmail());
-            if(temp != null){
-                // Begin a transaction
-                EntityTransaction transaction = entityManager.getTransaction();
-                transaction.begin();
-                User updatedUser = entityManager.find(User.class, temp.getId());
-                updatedUser.setPassword(user.getPassword());
-                transaction.commit();
+            User updatedUser = this.userRepository.findByEmail(user.getEmail());
+            if(updatedUser != null) {
+                updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+                this.userRepository.save(updatedUser);
                 return updatedUser;
             }
         }
-
         return null;
     }
 
