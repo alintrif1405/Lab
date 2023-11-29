@@ -71,9 +71,9 @@
 
         <!-- Add a button to trigger the getInfo action -->
         <!-- hx-vals should be changed to get the email of the user that's currently logged in -->
-        <button type="button" hx-get="/users/getInfo" hx-trigger="click" hx-target="#registrationForm" hx-vals="js:{email: getCurrentUser()}"  hx-swap="none">Get User Info</button>
+        <button type="button" hx-get="/users/user" hx-trigger="click" hx-target="#registrationForm" hx-vals="js:{email: getCurrentUser()}"  hx-swap="none">Get User Info</button>
 
-        <form id="registrationForm" hx-post="/users/updateInfo" hx-trigger="submit" hx-headers="{'Content-Type': 'application/json'}" hx-swap="none ">
+        <form id="registrationForm" hx-put="/users/user" hx-trigger="submit" hx-headers="{'Content-Type': 'application/json'}" hx-swap="none ">
             <!-- Use hx-post to specify the endpoint for form submission -->
             <input type="text" id="lastname" name="lastname" required placeholder="Last Name" readonly>
 

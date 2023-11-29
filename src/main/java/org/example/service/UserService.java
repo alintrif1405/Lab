@@ -101,6 +101,4 @@ public class UserService {
         Matcher matcher = pattern.matcher(name);
         return matcher.find();
     }
-
-
 }

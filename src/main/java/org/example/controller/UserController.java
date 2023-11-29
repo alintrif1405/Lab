@@ -22,7 +22,7 @@ public class UserController {
         this.accountHistoryService = accountHistoryService;
     }
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/user")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         User savedUser = this.userService.saveUser(user);
 
@@ -33,7 +33,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/getInfo")
+    @GetMapping(value = "/user")
     public ResponseEntity<User> getUser(@RequestParam String email){
         User updatedUser = this.userService.getUserByEmail(email);
 
@@ -44,10 +44,11 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/updateInfo")
-    public ResponseEntity<User> updateUser(@RequestParam String password){
+    @PutMapping(value = "/user")
+    public ResponseEntity<User> updateUser(@RequestParam String email, @RequestParam String password){
         User user = new User();
         user.setPassword(password);
+        user.setEmail(email);
         User oldUser = this.userService.getUserByEmail(user.getEmail());
         User updatedUser = this.userService.updateUser(user);
         if(updatedUser == null){
