@@ -78,6 +78,29 @@ body {
     width: 100%;
 }
 
+.select-menu {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: #495057;
+}
+.select-menu::-ms-expand {
+    display: none;
+}
+
+.select-menu:hover {
+    border-color: #6c757d;
+}
+
+.select-menu option {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+
 label {
     margin-bottom: 5px;
 }
@@ -121,4 +144,9 @@ form{
     display: flex;
     flex-flow: column nowrap;
     color:#ee6c4d;
+}
+
+input:focus::placeholder{
+    color: #ee6c4d;
+    transition: 0.7s;
 }
