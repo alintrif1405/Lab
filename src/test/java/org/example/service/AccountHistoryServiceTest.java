@@ -1,16 +1,13 @@
-package org.example.test.service;
+package org.example.service;
 
 import org.example.model.AccountHistory;
 import org.example.model.User;
 import org.example.repository.AccountHistoryRepository;
-import org.example.service.AccountHistoryService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;

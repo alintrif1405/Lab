@@ -1,20 +1,16 @@
 package org.example.service;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 import org.example.model.User;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UserService {
@@ -88,7 +84,7 @@ public class UserService {
     public boolean validateNames(String name) {
         if (name == null)
             return false;
-        Pattern pattern = Pattern.compile("^[A-Za-z]+(?:[ -][A-Za-z]+)*$");
+        Pattern pattern = Pattern.compile("^[A-Z][a-z]+$");
         Matcher matcher = pattern.matcher(name);
         return matcher.find();
     }

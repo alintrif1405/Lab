@@ -3,7 +3,6 @@ package org.example.controller;
 import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.AccountHistoryService;
-import org.springframework.web.bind.annotation.*;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,17 +45,19 @@ public class UserController {
     }
 
     @PutMapping(value = "/user")
-    public ResponseEntity<User> updateUser(@RequestParam String email, @RequestParam String password){
+    public ResponseEntity<User> updateUser(@RequestParam String email, @RequestParam String password) {
         User user = new User();
         user.setPassword(password);
         user.setEmail(email);
         User oldUser = this.userService.getUserByEmail(user.getEmail());
         User updatedUser = this.userService.updateUser(user);
-        if(updatedUser == null){
+        if (updatedUser == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } else{
+        } else {
             this.accountHistoryService.makeNewEntry(oldUser, updatedUser);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        }
+    }
 
     @PostMapping(value = "/register")
     public ResponseEntity<String> saveUser(@RequestParam String firstname, @RequestParam String lastname,
