@@ -16,7 +16,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public String readFile(String filePath) throws IOException {
+    public String readFile(String filePath) {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line = reader.readLine();
@@ -52,9 +52,6 @@ public class EmailService {
             System.out.println("email address exception");
         } catch (MessagingException e) {
             System.out.println("messaging exception");
-        }
-        catch (IOException e) {
-            System.out.println("io exception");
         }
     }
 }
