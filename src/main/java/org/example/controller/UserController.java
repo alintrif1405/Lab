@@ -38,7 +38,7 @@ public class UserController {
         User updatedUser = this.userService.getUserByEmail(email);
 
         if(updatedUser == null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else{
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }
@@ -52,7 +52,7 @@ public class UserController {
         User oldUser = this.userService.getUserByEmail(user.getEmail());
         User updatedUser = this.userService.updateUser(user);
         if (updatedUser == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             this.accountHistoryService.makeNewEntry(oldUser, updatedUser);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
