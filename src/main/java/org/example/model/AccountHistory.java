@@ -3,7 +3,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,38 +17,38 @@ public class AccountHistory {
     private int id;
 
     @Column(name="old_lastname")
-    private String old_lastname;
+    private String oldLastname;
 
     @Column(name="old_firstname")
-    private String old_firstname;
+    private String oldFirstname;
 
     @Column(name="old_email")
-    private String old_email;
+    private String oldEmail;
 
     @Column(name="old_password")
-    private String old_password;
+    private String oldPassword;
 
     @Enumerated(EnumType.STRING)
     @Column(name="old_role", length = 20)
-    private ERole old_role;
+    private ERole oldRole;
 
     @Column(name="new_lastname")
-    private String new_lastname;
+    private String newLastname;
 
     @Column(name="new_firstname")
-    private String new_firstname;
+    private String newFirstname;
 
     @Column(name="new_email")
-    private String new_email;
+    private String newEmail;
 
     @Column(name="new_password")
-    private String new_password;
+    private String newPassword;
 
     @Enumerated(EnumType.STRING)
     @Column(name="new_role", length = 20)
-    private ERole new_role;
+    private ERole newRole;
 
     @Column(name="date_modified")
-    private LocalDate date_modified;
+    private LocalDate dateModified;
 
 }
