@@ -27,7 +27,7 @@ public class UserController {
         User savedUser = this.userService.saveUser(user);
 
         if(savedUser == null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else{
             return new ResponseEntity<>(savedUser, HttpStatus.OK);
         }
