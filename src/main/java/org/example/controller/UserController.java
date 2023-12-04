@@ -1,4 +1,5 @@
 package org.example.controller;
+
 import org.example.model.ERole;
 import org.example.model.User;
 import org.example.service.EmailService;
@@ -6,7 +7,11 @@ import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 @RestController
 @RequestMapping("/users")
@@ -31,11 +36,15 @@ public class UserController {
         if (savedUser == null) {
             return new ResponseEntity<>("Invalid user", HttpStatus.OK);
         } else {
-            emailService.sendEmailFromTemplate(savedUser.getEmail(),
-                    "src/main/java/org/example/service/emailTemplateAccountConfirmation.txt",
-                    "UBB Account created", password);
+            try {
+                File file = ResourceUtils.getFile("classpath:emailTemplateAccountConfirmation.txt");
+                emailService.sendEmailFromTemplate(savedUser.getEmail(),
+                        file.getPath(),
+                        "UBB Account created", password);
+            } catch (FileNotFoundException e) {
+                System.out.println("email template not found");
+            }
             return new ResponseEntity<>("User successfully created", HttpStatus.OK);
         }
-
     }
 }
