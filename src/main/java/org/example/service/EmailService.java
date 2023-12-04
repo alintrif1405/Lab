@@ -34,13 +34,12 @@ public class EmailService {
     public void sendEmailFromTemplate(String recipientAddress, String filePath, String subject, String password) {
 
         try {
+            String htmlTemplate = readFile(filePath);
             MimeMessage message = mailSender.createMimeMessage();
 
             message.setFrom("proiectcolectiv732@outlook.com");
             message.setRecipients(MimeMessage.RecipientType.TO, recipientAddress);
             message.setSubject(subject);
-
-            String htmlTemplate = readFile(filePath);
 
             htmlTemplate = htmlTemplate.replace("{name}", recipientAddress.substring(0, recipientAddress.indexOf("@")));
             htmlTemplate = htmlTemplate.replace("{password}", password);
@@ -48,10 +47,6 @@ public class EmailService {
             message.setContent(htmlTemplate, "text/html; charset=utf-8");
 
             mailSender.send(message);
-        } catch (AddressException e) {
-            System.out.println("email address exception");
-        } catch (MessagingException e) {
-            System.out.println("messaging exception");
-        }
+        } catch (MessagingException ignored) {}
     }
 }
