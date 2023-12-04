@@ -24,9 +24,7 @@ public class EmailService {
                 sb.append(line);
                 line = reader.readLine();
             }
-        } catch (IOException e) {
-            System.out.println("email error reading file");
-        }
+        } catch (IOException ignored) {}
         return sb.toString();
     }
 
