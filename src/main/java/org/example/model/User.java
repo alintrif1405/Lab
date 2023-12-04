@@ -11,6 +11,14 @@ import lombok.*;
 @Table(name = "users")
 public class User {
 
+    public User(String firstname, String lastname, String email, String password, ERole role){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -30,4 +38,5 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name="role", length = 20)
     private ERole role;
+
 }
