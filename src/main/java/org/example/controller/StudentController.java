@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -23,16 +22,17 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-    public List<Students> getAllStudents(){
+    public List<Students> getAllStudents() {
         return studentService.getAllStudents();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Students> getStudentById(@PathVariable Integer id){
+    public ResponseEntity<Students> getStudentById(@PathVariable Integer id) {
         Students student = studentService.getStudentById(id).orElse(null);
-        return (student!=null) ? ResponseEntity.ok(student):ResponseEntity.notFound().build();
+        return (student != null) ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
 
     }
+
     @GetMapping("/{id}/courses")
     public ResponseEntity<Set<StudentCourse>> getCoursesForStudent(@PathVariable Integer id) {
         Students student = studentService.getStudentById(id).orElse(null);
@@ -60,6 +60,22 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/{id}/courses/grades")
+    public ResponseEntity<Set<StudentCourse>> getGrades(@PathVariable Integer id) {
+        Students student = studentService.getStudentById(id).orElse(null);
+
+        if (student != null) {
+            Set<StudentCourse> studentCourses = student.getStudentCourses();
+
+            if (studentCourses != null) {
+                return ResponseEntity.ok(studentCourses);
+            } else {
+                return ResponseEntity.ok(Collections.emptySet());
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
     @DeleteMapping("/{id}")
@@ -73,7 +89,6 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
-
 
 
 }

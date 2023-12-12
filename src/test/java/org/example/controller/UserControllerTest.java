@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.model.ERole;
 import org.example.model.User;
+import org.example.service.EmailService;
 import org.example.service.AccountHistoryService;
 import org.example.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.util.AssertionErrors.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,6 +31,8 @@ class UserControllerTest {
     private AccountHistoryService accountHistoryService;
     @Mock
     private UserService userService;
+    @Mock
+    private EmailService emailService;
 
     private MockMvc mockMvc;
 
@@ -48,7 +52,6 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("User successfully created"))
                 .andReturn().getResponse().getContentAsString();
-
         verify(userService, times(1)).saveUser(any(User.class));
     }
 

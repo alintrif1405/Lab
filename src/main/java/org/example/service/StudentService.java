@@ -36,6 +36,7 @@ public class StudentService {
         Optional<Students> existingStudent = studentRepository.findById(id);
         if (existingStudent.isPresent()) {
             studentRepository.deleteById(id);
+
             return true;
         } else {
             throw new EntityNotFoundException("Student with ID " + id + " not found");
