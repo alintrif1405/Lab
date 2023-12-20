@@ -24,7 +24,7 @@ public class StudentCourse {
     @ManyToOne
     @MapsId("courseID")
     @JoinColumn(name = "courseFK")
-    Course course;
+    private Course course;
     @Column(name = "note")
     private double note;
     @Transient
