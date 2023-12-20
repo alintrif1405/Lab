@@ -2,7 +2,9 @@ package org.example.controller;
 
 
 import jakarta.persistence.EntityNotFoundException;
+import org.example.model.Course;
 import org.example.model.StudentCourse;
+import org.example.model.StudentGradesDTO;
 import org.example.model.Students;
 import org.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -61,20 +64,33 @@ public class StudentController {
     }
 
     @GetMapping("/{id}/courses/grades")
-    public ResponseEntity<Set<StudentCourse>> getGrades(@PathVariable Integer id) {
+    public ResponseEntity<Set<StudentGradesDTO>> getGrades(@PathVariable Integer id) {
         Students student = studentService.getStudentById(id).orElse(null);
+        Set<StudentGradesDTO> studentGradesDTO = new HashSet<>();
 
-        if (student != null) {
-            Set<StudentCourse> studentCourses = student.getStudentCourses();
+        if (student != null && student.getStudentCourses() != null) {
+            for (StudentCourse studentCourse : student.getStudentCourses()) {
 
-            if (studentCourses != null) {
-                return ResponseEntity.ok(studentCourses);
-            } else {
-                return ResponseEntity.ok(Collections.emptySet());
+                StudentGradesDTO gradesDTO = new StudentGradesDTO();
+
+                // Set grade information
+                gradesDTO.setGrade(studentCourse.getNote());
+
+                // Set course information
+                Course course = studentCourse.getCourse();
+                if (course != null) {
+                    gradesDTO.setCourseName(course.getName());
+                    gradesDTO.setType(course.getType());
+                    gradesDTO.setCourseId(course.getCourseID());
+                }
+
+                studentGradesDTO.add(gradesDTO);
             }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+            return ResponseEntity.ok(studentGradesDTO);
+
+
+        } else return ResponseEntity.notFound().build();
+
     }
 
 

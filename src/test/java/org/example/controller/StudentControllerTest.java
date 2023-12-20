@@ -1,12 +1,11 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.Key.StudentCourseKey;
 import org.example.model.Course;
+import org.example.model.CourseType;
 import org.example.model.StudentCourse;
 import org.example.model.Students;
 import org.example.service.StudentService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,13 +22,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.*;
 
-import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @WebMvcTest(StudentController.class)
@@ -64,7 +63,7 @@ public class StudentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(student)))
                 .andExpect(status().isCreated());
-        }
+    }
 
     @Test
     void getAllStudents() throws Exception {
@@ -74,11 +73,12 @@ public class StudentControllerTest {
 
         mockMvc.perform(get("/students"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(1)));
+                .andExpect(jsonPath("$", hasSize(1)));
     }
+
     @Test
     public void testGetCoursesForStudent() throws Exception {
-        Course course=new Course();
+        Course course = new Course();
         Set<StudentCourse> studentCourses = new HashSet<>();
         studentCourses.add(new StudentCourse());
         student.setStudentCourses(studentCourses);
@@ -91,5 +91,38 @@ public class StudentControllerTest {
 
     }
 
+    @Test
+    public void testGetGrades() throws Exception {
 
+        student.setStudentID(1);
+        student.setStudentCourses(new HashSet<>());
+
+        StudentCourse mockStudentCourse = new StudentCourse();
+        mockStudentCourse.setStudentCourseID(null);
+        mockStudentCourse.setStudent(student);
+
+        Course mockCourse = new Course();
+        mockCourse.setCourseID(101);
+        mockCourse.setName("Math");
+        mockCourse.setType(CourseType.obligatory);
+        mockStudentCourse.setCourse(mockCourse);
+        mockStudentCourse.setNote(8.5);
+
+        student.getStudentCourses().add(mockStudentCourse);
+
+        // Mocking the service method
+        when(studentService.getStudentById(1)).thenReturn(java.util.Optional.of(student));
+
+        // Performing the test
+        mockMvc.perform(get("/students/1/courses/grades"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].grade").value(8.5))
+                .andExpect(jsonPath("$[0].courseName").value("Math"))
+                .andExpect(jsonPath("$[0].type").value("obligatory"))
+                .andExpect(jsonPath("$[0].courseId").value(101));
+    }
 }
+
+
+
